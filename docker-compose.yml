@@ -1,0 +1,13 @@
+version: '3'
+services:
+  alexa:
+    build:
+      context: .
+    environment:
+      - PASSWORD
+      - MFA_SECRET
+      - EMAIL
+      - LANGUAGE
+      - TTS_LOCALE
+      - AMAZON
+      - ALEXA
