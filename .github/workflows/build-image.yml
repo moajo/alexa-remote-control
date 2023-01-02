@@ -1,0 +1,23 @@
+name: build-image
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+      - run: docker build -t ghcr.io/${OWNER}/alexa-remote-control .
+        env:
+          OWNER: ${{ github.repository_owner }}
+      - run: echo $CR_PAT | docker login ghcr.io -u ${OWNER} --password-stdin
+        env:
+          CR_PAT: ${{ secrets.GITHUB_TOKEN }}
+          OWNER: ${{ github.repository_owner }}
+      - run: docker push ghcr.io/${OWNER}/alexa-remote-control
+        env:
+          OWNER: ${{ github.repository_owner }}
